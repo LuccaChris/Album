@@ -1,0 +1,10 @@
+      .photo-selected {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 4px #3b82f6;
+        }
+        .photo-item {
+            transition: all 0.3s ease;
+        }
+        .photo-item:hover {
+            transform: scale(1.05);
+        }
