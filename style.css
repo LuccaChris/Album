@@ -1,3 +1,11 @@
+      :root{
+        --cor-gradiente: radial-gradient(circle at center, #021341, #07257e, #04185afd,#010c24);
+      }
+      body {
+          background: var(--cor-gradiente);
+          color: #fff;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
       .photo-selected {
             transform: scale(0.95);
             box-shadow: 0 0 0 4px #3b82f6;
@@ -7,4 +15,12 @@
         }
         .photo-item:hover {
             transform: scale(1.05);
+        }
+
+        .chart {
+            background: #000;
+        }
+
+        .gradiente-color{
+            background: var(--cor-gradiente);
         }
