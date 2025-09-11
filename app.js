@@ -54,29 +54,47 @@ async function checkPassword() {
 }
 
 // -------- Galeria --------
+let photosPerPage = 20;
+let currentPage = 0;
+
 function generateGallery() {
   const grid = document.querySelector(".grid");
-  grid.innerHTML = "";
+  
+  // Limpa o grid só na primeira página
+  if (currentPage === 0) grid.innerHTML = "";
 
-  photos.forEach((src, index) => {
+  const start = currentPage * photosPerPage;
+  const end = Math.min(start + photosPerPage, photos.length);
+
+  for (let i = start; i < end; i++) {
+    const src = photos[i];
     const photoElement = document.createElement("div");
-    photoElement.className =
-      "photo-item relative cursor-pointer rounded-xl overflow-hidden aspect-square shadow-lg";
+    photoElement.className = "photo-item relative cursor-pointer rounded-xl overflow-hidden aspect-square shadow-lg";
 
     photoElement.innerHTML = `
-      <img src="${src}" alt="Foto ${index + 1}" class="w-full h-full object-cover" />
-      <div class="absolute top-2 right-2 w-6 h-6 bg-white rounded-full border-2 border-gray-300 hidden" id="check-${index}">
+      <img src="${src}" alt="Foto ${i + 1}" class="w-full h-full object-cover" loading="lazy" />
+      <div class="absolute top-2 right-2 w-6 h-6 bg-white rounded-full border-2 border-gray-300 hidden" id="check-${i}">
         <svg class="w-4 h-4 text-blue-500 absolute top-0.5 left-0.5" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
         </svg>
       </div>
     `;
 
-    photoElement.onclick = () => togglePhoto(index);
+    photoElement.onclick = () => togglePhoto(i);
     grid.appendChild(photoElement);
-  });
+  }
+
+  currentPage++;
 }
 
+// Exemplo: carregar mais ao rolar até o fim
+window.addEventListener("scroll", () => {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+    if (currentPage * photosPerPage < photos.length) {
+      generateGallery();
+    }
+  }
+});
 function togglePhoto(photoIndex) {
   const checkElement = document.getElementById(`check-${photoIndex}`);
 
